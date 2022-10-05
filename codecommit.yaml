@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Template to Create CodeCommit Repo with Initial Commit
+
+Parameters:
+  CodeBucket:
+    Type: String
+    Description: Bucket in which you have code
+    Default: stephanie-commit
+  CodeKey:
+    Type: String
+    Description: key of zipped code
+    Default: repo.zip
+  RepositoryName:
+    Type: String
+    Description: CodeCommit Repo Name to be created
+    Default: aws-codebuild-samples
+
+Resources:
+  CodeCommitRepo:
+    Type: AWS::CodeCommit::Repository
+    Properties:
+      RepositoryName: !Ref RepositoryName
+      Code:
+        BranchName: master
+        S3: 
+          Bucket: !Ref CodeBucket
+          Key: !Ref CodeKey
+          
+Outputs:
+  RepositoryID:
+    Description: ID of the created CodeCommit repo
+    Value: !Ref CodeCommitRepo
